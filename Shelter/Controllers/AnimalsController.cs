@@ -39,6 +39,20 @@ namespace Shelter.Controllers
       return animal;
     }
 
+    [HttpGet("type/{id}")]
+    public ActionResult<List<Animal>> GetAnimalsByType(int id)
+    {
+      var animals = _context.Animals.AsQueryable();
+      
+      if (animals == null)
+      {
+        return NotFound();
+      }
+
+      animals = animals.Where(entry => entry.TypeId == id);
+      return animals.ToList();
+    }
+
     [HttpPost]
     public async Task<ActionResult<Animal>> Post(Animal animal)
     {
