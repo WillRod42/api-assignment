@@ -37,7 +37,7 @@ git clone https://github.com/WillRod42/api-assignment.git
   dotnet build
   dotnet run
   ```
-* This will open a live instance of the web-app at [http://localhost:5000](http://localhost:5000)
+* This will open a live instance of the api at [http://localhost:5000](http://localhost:5000)
 
 ### Setup MySQL Server
 * Download and install the version of [MySQL](https://dev.mysql.com/downloads/mysql/) for your OS
