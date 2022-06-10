@@ -54,5 +54,31 @@ namespace Shelter.Controllers
 
 			return Ok();
 		}
+
+		[HttpPost]
+		[Route("login")]
+		public async Task<IActionResult> Login([FromBody] LoginModel model)
+		{
+			var user = await _userManager.FindByNameAsync(model.Email);
+			if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
+			{
+
+				var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:SecretKey"]));
+
+				var token = new JwtSecurityToken(
+					issuer: _configuration["JWT:ValidIssuer"],
+					audience: _configuration["JWT:ValidAudience"],
+					expires: DateTime.Now.AddHours(3),
+					signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
+				);
+
+				return Ok(new
+				{
+					token = new JwtSecurityTokenHandler().WriteToken(token),
+					expiration = token.ValidTo
+				});
+			}
+			return Unauthorized();
+		}
 	}
 }

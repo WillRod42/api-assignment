@@ -14,5 +14,10 @@ namespace Shelter.Models
     {
       optionsBuilder.UseLazyLoadingProxies();
     }
+
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+      base.OnModelCreating(builder);
+    }
   }
 }
