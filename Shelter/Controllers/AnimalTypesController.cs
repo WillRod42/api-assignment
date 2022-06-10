@@ -5,10 +5,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 using Shelter.Models;
 
 namespace Shelter.Controllers
 {
+	[Authorize]
   [Route("api/[controller]")]
   [ApiController]
   public class AnimalTypesController : ControllerBase
@@ -20,12 +22,14 @@ namespace Shelter.Controllers
       _context = context;
     }
 
+		[AllowAnonymous]
     [HttpGet]
     public async Task<ActionResult<IEnumerable<AnimalType>>> Get()
     {
       return await _context.Types.ToListAsync();
     }
 
+		[AllowAnonymous]
     [HttpGet("{id}")]
     public async Task<ActionResult<AnimalType>> GetAnimalType(int id)
     {
